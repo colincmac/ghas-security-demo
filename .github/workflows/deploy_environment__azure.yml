@@ -81,7 +81,7 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.DEMO_AZURE_SERVICE_PROVIDER_CREDENTIALS }}
+          creds: ${{ secrets.DEMO_SECURITY_V1_AZURE_SERVICE_PROVIDER_CREDENTIALS }}
 
       - name: Azure Deployment
         id: azure_deploy
