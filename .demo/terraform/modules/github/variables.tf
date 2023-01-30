@@ -9,14 +9,6 @@ variable "actor" {
   description = "The user that has requested the demo repository"
 }
 
-variable "template_repository" {
-  type = object({
-    owner = string
-    repo  = string
-  })
-  description = "The template repository to create the demo from"
-}
-
 variable "target_repository" {
   type = object({
     owner = string
