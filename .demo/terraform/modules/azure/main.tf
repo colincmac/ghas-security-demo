@@ -7,9 +7,6 @@ terraform {
       version = "3.9.0"
     }
   }
-
-  # This allows us to utilize defaults and optional values on object variables
-  experiments = [module_variable_optional_attrs]
 }
 
 locals {
