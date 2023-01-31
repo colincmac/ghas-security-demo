@@ -86,7 +86,7 @@ resource "github_actions_secret" "azure_resource_group" {
   plaintext_value = var.azure.resource_group_name
 }
 
-# TODO need to enabe this after we populate the repository
+# TODO need to enable this after we populate the repository
 # resource "github_branch_protection" "protect_default_branch" {
 #   repository_id  = github_repository.repository.name
 #   pattern        = "main"

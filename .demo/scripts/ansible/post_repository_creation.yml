@@ -42,15 +42,39 @@
         cmd: git remote set-url --push origin {{ target_repository_url }}
         chdir: '{{ working_directory }}'
 
-    # - name: Fetch the origin repo
-    #   command:
-    #     cmd: git -c "http.extraHeader={{ template_auth_header }}" fetch -p origin
-    #     chdir: '{{ working_directory }}'
+    - name: Fetch the origin repo
+      command:
+        cmd: git -c "http.extraHeader={{ template_auth_header }}" fetch -p origin
+        chdir: '{{ working_directory }}'
 
     - name: Push repository files
       command:
-        cmd: git -c "http.extraHeader={{ demo_auth_header }}" push origin main --force
+        # cmd: git -c "http.extraHeader={{ demo_auth_header }}" push origin main --force
+        cmd: git -c "http.extraHeader={{ demo_auth_header }}" --mirror --force origin
         chdir: '{{ working_directory }}'
+
+    - name: Enable Push protection rules
+      uri:
+        url: https://api.github.com/repos/{{ context.github_context.target_repository.owner }}/{{ context.github_context.target_repository.repo }}/branches/main/protection
+        method: PUT
+        headers:
+          Accept: application/vnd.github.v3+json
+          Authorization: bearer {{ github_demo_token }}
+        body_format: json
+        body:
+          required_status_checks:
+            strict: false
+            contexts: [
+              "Container Build - application / build_and_publish_container",
+              "CodeQL Code Scanning",
+              "CodeQL",
+              "Container Vulnerabilty Scan - app"
+            ]
+            enforce_admins: false
+            required_pull_result_reviews:
+              dismiss_stale_reviews: true
+              required_approving_review_count: 1
+        status_code: 200
 
     - name: Invoke Issue creation workflow
       uri:
