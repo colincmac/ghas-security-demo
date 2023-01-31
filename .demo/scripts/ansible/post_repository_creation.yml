@@ -33,24 +33,23 @@
         target_repository_url: https://github.com/{{ context.github_context.target_repository.owner }}/{{ context.github_context.target_repository.repo }}
         working_directory: template-repo
 
-    - name: Clone template repository as mirror
+    - name: Clone template repository
       command:
-        cmd: 'git -c "http.extraHeader={{ template_auth_header }}" clone --mirror {{ template_repository_url }} {{ working_directory }}'
+        cmd: 'git -c "http.extraHeader={{ template_auth_header }}" clone {{ template_repository_url }} {{ working_directory }}'
 
     - name: Set target repo url
       command:
         cmd: git remote set-url --push origin {{ target_repository_url }}
         chdir: '{{ working_directory }}'
 
-    - name: Fetch the origin repo
-      command:
-        cmd: git -c "http.extraHeader={{ template_auth_header }}" fetch -p origin
-        chdir: '{{ working_directory }}'
+    # - name: Fetch the origin repo
+    #   command:
+    #     cmd: git -c "http.extraHeader={{ template_auth_header }}" fetch -p origin
+    #     chdir: '{{ working_directory }}'
 
     - name: Push repository files
       command:
-        # cmd: git -c "http.extraHeader={{ demo_auth_header }}" push --mirror
-        cmd: git -c "http.extraHeader={{ demo_auth_header }}" push origin main
+        cmd: git -c "http.extraHeader={{ demo_auth_header }}" push origin main --force
         chdir: '{{ working_directory }}'
 
     - name: Invoke Issue creation workflow
