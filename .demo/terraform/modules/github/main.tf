@@ -34,7 +34,7 @@ resource "github_repository_file" "content_files" {
     repository          = github_repository.repository.name
     branch              = "main"
     file                = each.key
-    content             = file("${var.template_directory_path}/${each.key}")
+    content             = filebase64("${var.template_directory_path}/${each.key}")
     overwrite_on_create = true
 
     commit_message = "Template repository initialization"
