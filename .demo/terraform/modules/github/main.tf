@@ -35,19 +35,19 @@ resource "github_repository" "repository" {
 #   }
 # }
 
-resource "github_repository_file" "content_files" {
-    for_each = var.repository_files
+# resource "github_repository_file" "content_files" {
+#     for_each = var.repository_files
 
-    repository          = github_repository.repository.name
-    branch              = "main"
-    file                = each.key
-    content             = base64decode(filebase64("${var.template_directory_path}/${each.key}"))
-    overwrite_on_create = true
+#     repository          = github_repository.repository.name
+#     branch              = "main"
+#     file                = each.key
+#     content             = base64decode(filebase64("${var.template_directory_path}/${each.key}"))
+#     overwrite_on_create = true
 
-    commit_message = "Template repository initialization"
-    commit_author = "bootstrap"
-    commit_email = "octodemobot@github.com"
-}
+#     commit_message = "Template repository initialization"
+#     commit_author = "bootstrap"
+#     commit_email = "octodemobot@github.com"
+# }
 
 resource "github_team" "repository_admins" {
   name                      = "${github_repository.repository.name}-admins"
