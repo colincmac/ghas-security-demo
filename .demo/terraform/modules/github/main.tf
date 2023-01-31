@@ -86,26 +86,27 @@ resource "github_actions_secret" "azure_resource_group" {
   plaintext_value = var.azure.resource_group_name
 }
 
-resource "github_branch_protection" "protect_default_branch" {
-  repository_id  = github_repository.repository.name
-  pattern        = "main"
-  enforce_admins = false
+# TODO need to enabe this after we populate the repository
+# resource "github_branch_protection" "protect_default_branch" {
+#   repository_id  = github_repository.repository.name
+#   pattern        = "main"
+#   enforce_admins = false
 
-  required_status_checks {
-    strict = false
-    # The following is tied into the workflow actions for the builds in the base template repository
-    contexts = [
-      "Container Build - application / build_and_publish_container",
-      "CodeQL Code Scanning",
-      "CodeQL",
-      "Container Vulnerabilty Scan - app"
-    ]
-  }
-  required_pull_request_reviews {
-    dismiss_stale_reviews           = true
-    required_approving_review_count = 1
-  }
-}
+#   required_status_checks {
+#     strict = false
+#     # The following is tied into the workflow actions for the builds in the base template repository
+#     contexts = [
+#       "Container Build - application / build_and_publish_container",
+#       "CodeQL Code Scanning",
+#       "CodeQL",
+#       "Container Vulnerabilty Scan - app"
+#     ]
+#   }
+#   required_pull_request_reviews {
+#     dismiss_stale_reviews           = true
+#     required_approving_review_count = 1
+#   }
+# }
 
 
 output "repository_url" {
