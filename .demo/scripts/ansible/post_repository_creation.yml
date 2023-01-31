@@ -5,7 +5,8 @@
     - name: Parse Terraform Context
       set_fact:
         context: "{{ lookup('env', 'TERRAFORM_PARAMETERS_B64') | b64decode | from_json }}"
-        github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+        github_template_token: "{{ lookup('env', 'GITHUB_TEMPLATE_TOKEN') }}"
+        github_demo_token: "{{ lookup('env', 'GITHUB_DEMO_TOKEN') }}"
 
     - name: Validate Context
       assert:
@@ -17,7 +18,33 @@
           - context.github_context.target_repository.owner is defined
           - context.github_context.target_repository.repo is defined
 
-          - github_token is defined
+          - github_template_token is defined
+          - github_demo_token is defined
+
+    - name: Set Repository URLs
+      set_fact:
+        template_repository_url_with_token: https://{{ github_template_token }}@github.com/{{ context.github_context.template_repository.owner }}/{{ context.github_context.template_repository.repo }}
+        target_repository_url_with_token: https://{{ github_demo_token }}@github.com/{{ context.github_context.target_repository.owner }}/{{ context.github_context.target_repository.repo }}
+        working_directory: template-repo
+
+    - name: Clone template repository as mirror
+      command:
+        cmd: git clone --mirror {{ template_repository_url_with_token }} {{ working_directory }}
+
+    - name: Set target repo url
+      command:
+        cmd: git remote set-url --push origin {{ target_repository_url_with_token }}
+        chdir: {{ working_direcotry }}
+
+    - name: Fetch the origin repo
+      command:
+        cmd: git fetch -p origin
+        chdir: {{ working_direcotry }}
+
+    - name: Push repository files
+      command:
+        cmd: git push --mirror
+        chdir: {{ working_direcotry }}
 
     - name: Invoke Issue creation workflow
       uri:
@@ -25,7 +52,7 @@
         method: POST
         headers:
           Accept: application/vnd.github.v3+json
-          Authorization: bearer {{ github_token }}
+          Authorization: bearer {{ github_demo_token }}
         body_format: json
         body:
           ref: "main"

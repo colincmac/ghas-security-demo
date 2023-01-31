@@ -14,7 +14,8 @@ TERRAFORM_PARAMETERS_B64=`echo "${TERRAFORM_PARAMETERS}" | base64`
 docker run \
   -v $DIR/ansible:/ansible \
   -w /ansible \
-  -e GITHUB_TOKEN="${GITHUB_TOKEN}" \
+  -e GITHUB_TEMPLATE_TOKEN="${GITHUB_TOKEN}" \
+  -e GITHUB_DEMO_TOKEN="${GITHUB_TOKEN}" \
   -e TERRAFORM_PARAMETERS_B64="${TERRAFORM_PARAMETERS_B64}" \
   ghcr.io/octodemo/container-ansible-development:base-20210217 \
   ./post_repository_creation.yml \
