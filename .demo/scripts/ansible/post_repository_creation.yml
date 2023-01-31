@@ -50,7 +50,7 @@
     - name: Push repository files
       command:
         # cmd: git -c "http.extraHeader={{ demo_auth_header }}" push --mirror
-        cmd: git -c "http.extraHeader={{ demo_auth_header }}" push main
+        cmd: git -c "http.extraHeader={{ demo_auth_header }}" push origin main
         chdir: '{{ working_directory }}'
 
     - name: Invoke Issue creation workflow
