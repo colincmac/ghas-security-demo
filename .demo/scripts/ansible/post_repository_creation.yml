@@ -49,8 +49,7 @@
 
     - name: Push repository files
       command:
-        # cmd: git -c "http.extraHeader={{ demo_auth_header }}" push origin main --force
-        cmd: git -c "http.extraHeader={{ demo_auth_header }}" --mirror --force origin
+        cmd: git -c "http.extraHeader={{ demo_auth_header }}" push origin main --force
         chdir: '{{ working_directory }}'
 
     - name: Enable Push protection rules
