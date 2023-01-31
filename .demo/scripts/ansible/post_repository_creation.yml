@@ -31,7 +31,7 @@
 
     - name: Clone template repository as mirror
       command:
-        cmd: 'git -vvv -c "http.extraHeader=Authorization: Basic {{ basic_auth_token }}" clone --mirror {{ template_repository_url }} {{ working_directory }}'
+        cmd: 'git -c "http.extraHeader=Authorization: Basic {{ basic_auth_token }}" clone --mirror {{ template_repository_url }} {{ working_directory }}'
 
     - name: Set target repo url
       command:
