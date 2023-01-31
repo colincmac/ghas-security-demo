@@ -34,17 +34,17 @@
     - name: Set target repo url
       command:
         cmd: git remote set-url --push origin {{ target_repository_url_with_token }}
-        chdir: {{ working_direcotry }}
+        chdir: {{ working_directory }}
 
     - name: Fetch the origin repo
       command:
         cmd: git fetch -p origin
-        chdir: {{ working_direcotry }}
+        chdir: {{ working_directory }}
 
     - name: Push repository files
       command:
         cmd: git push --mirror
-        chdir: {{ working_direcotry }}
+        chdir: {{ working_directory }}
 
     - name: Invoke Issue creation workflow
       uri:
