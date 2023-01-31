@@ -28,13 +28,20 @@ resource "github_repository" "repository" {
   auto_init = true
 }
 
+# resource "null_resource" "git_init" {
+
+#   provisioner "local-exec" {
+#     command = "/bin/bash git_init.sh ${var.github_token} ${github_repository.repository.http_clone_url} ${var.template_directory_path}"
+#   }
+# }
+
 resource "github_repository_file" "content_files" {
     for_each = var.repository_files
 
     repository          = github_repository.repository.name
     branch              = "main"
     file                = each.key
-    content             = filebase64("${var.template_directory_path}/${each.key}")
+    content             = base64decode(filebase64("${var.template_directory_path}/${each.key}"))
     overwrite_on_create = true
 
     commit_message = "Template repository initialization"
