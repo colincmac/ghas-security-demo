@@ -24,12 +24,14 @@
     - name: Set Repository URLs
       set_fact:
         template_repository_url_with_token: https://x-access-token:{{ github_template_token }}@github.com/{{ context.github_context.template_repository.owner }}/{{ context.github_context.template_repository.repo }}
+        template_repository_url: https://github.com/{{ context.github_context.template_repository.owner }}/{{ context.github_context.template_repository.repo }}.git
         target_repository_url_with_token: https://x-access-token:{{ github_demo_token }}@github.com/{{ context.github_context.target_repository.owner }}/{{ context.github_context.target_repository.repo }}
         working_directory: template-repo
+        basic_auth_token: "{{ ('x-access-token:' + github_template_token) | b64encode }}"
 
     - name: Clone template repository as mirror
       command:
-        cmd: git clone --mirror {{ template_repository_url_with_token }} {{ working_directory }}
+        cmd: 'git -c http.extaHeader="Authorization: Basic {{ basic_auth_token }}" clone --mirror {{ template_repository_url }} {{ working_directory }}'
 
     - name: Set target repo url
       command:
