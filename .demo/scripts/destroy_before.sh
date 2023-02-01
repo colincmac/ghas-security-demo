@@ -16,7 +16,6 @@ TERRAFORM_PARAMETERS_B64=`echo "${TERRAFORM_PARAMETERS}" | base64`
 docker run \
   -v $DIR/ansible:/ansible \
   -w /ansible \
-  -e GITHUB_TOKEN="${GITHUB_TOKEN}" \
   -e AZURE_CLIENT_ID="${ARM_CLIENT_ID}" \
   -e AZURE_SECRET="${ARM_CLIENT_SECRET}" \
   -e AZURE_SUBSCRIPTION_ID="${ARM_SUBSCRIPTION_ID}" \
