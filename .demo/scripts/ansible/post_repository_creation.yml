@@ -93,6 +93,6 @@
           ref: "main"
         status_code: 204
       register: invocation
-      until: 'invocation is not failed'
-      retires: 5
+      until: invocation is not failed
+      retries: 5
       delay: 2
