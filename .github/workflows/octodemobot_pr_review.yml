@@ -29,8 +29,8 @@ jobs:
         id: temp_token
         uses: peter-murray/workflow-application-token-action@v1.3.0
         with:
-          application_id: ${{ secrets.OCTODEMOBOT_APPLICATION_ID_REPO_AUTOMATION }}
-          application_private_key: ${{ secrets.OCTODEMOBOT_APPLICATION_KEY_REPO_AUTOMATION }}
+          application_id: ${{ secrets.DEMO_REPOSITORY_AUTOMATION_APPLICATION_ID }}
+          application_private_key: ${{ secrets.DEMO_REPOSITORY_AUTOMATION_APPLICATION_KEY }}
 
       - name: Apply PR Code Review
         uses: octodemo/pull-request-review-action@main

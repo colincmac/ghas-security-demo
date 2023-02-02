@@ -121,8 +121,8 @@ jobs:
       artifact_name: ${{ needs.build_and_test.outputs.artifact_name }}
       artifact_path: ${{ needs.build_and_test.outputs.artifact_path }}
     secrets:
-      application_id: ${{ secrets.OCTODEMOBOT_APPLICATION_ID_REPO_AUTOMATION }}
-      application_private_key: ${{ secrets.OCTODEMOBOT_APPLICATION_KEY_REPO_AUTOMATION }}
+      application_id: ${{ secrets.DEMO_REPOSITORY_AUTOMATION_APPLICATION_ID }}
+      application_private_key: ${{ secrets.DEMO_REPOSITORY_AUTOMATION_APPLICATION_KEY }}
 
   continuous_delivery:
     name: Continous Delivery Deployment
@@ -145,8 +145,8 @@ jobs:
         id: temp_token
         uses: peter-murray/workflow-application-token-action@v1.3.0
         with:
-          application_id: ${{ secrets.OCTODEMOBOT_APPLICATION_ID_REPO_AUTOMATION }}
-          application_private_key: ${{ secrets.OCTODEMOBOT_APPLICATION_KEY_REPO_AUTOMATION }}
+          application_id: ${{ secrets.DEMO_REPOSITORY_AUTOMATION_APPLICATION_ID }}
+          application_private_key: ${{ secrets.DEMO_REPOSITORY_AUTOMATION_APPLICATION_KEY }}
 
       - name: Create Deployment
         id: create_deployment
