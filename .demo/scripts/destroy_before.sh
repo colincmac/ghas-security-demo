@@ -21,6 +21,7 @@ docker run \
   -e AZURE_SUBSCRIPTION_ID="${ARM_SUBSCRIPTION_ID}" \
   -e AZURE_TENANT="${ARM_TENANT_ID}" \
   -e TERRAFORM_PARAMETERS_B64="${TERRAFORM_PARAMETERS_B64}" \
+  -e WORKFLOW_GITHUB_ACTIONS_TOKEN="${WORKFLOW_GITHUB_ACTIONS_TOKEN}"
   ghcr.io/octodemo/container-ansible-development:base-20220520 \
   ./destroy_azure_apps.yml \
   -vvv

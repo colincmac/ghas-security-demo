@@ -6,11 +6,11 @@
       set_fact:
         context: "{{ lookup('env', 'TERRAFORM_PARAMETERS_B64') | b64decode | from_json }}"
 
-        github_template_token: "{{ lookup('env', 'GITHUB_TEMPLATE_TOKEN') }}"
-        github_demo_token: "{{ lookup('env', 'GITHUB_DEMO_TOKEN') }}"
+        github_template_token: "{{ lookup('env', 'WORKFLOW_GITHUB_TEMPLATE_ORGANIZATION_TOKEN') }}"
+        github_demo_token: "{{ lookup('env', 'WORKFLOW_GITHUB_DEMO_ORGANIZATION_TOKEN') }}"
 
-        template_auth_header: "{{ lookup('env', 'GITHUB_AUTH_TEMPLATE_HEADER') }}"
-        demo_auth_header: "{{ lookup('env', 'GITHUB_AUTH_DEMO_HEADER') }}"
+        template_auth_header: "{{ lookup('env', 'WORKFLOW_AUTH_TEMPLATE_ORGANIZATION_HEADER') }}"
+        demo_auth_header: "{{ lookup('env', 'WORKFLOW_AUTH_DEMO_ORGANIZATION_HEADER') }}"
 
     - name: Validate Context
       assert:

@@ -9,7 +9,8 @@
       set_fact:
         context: "{{ lookup('env', 'TERRAFORM_PARAMETERS_B64') | b64decode | from_json }}"
         azure_subscription_id: "{{ lookup('env', 'AZURE_SUBSCRIPTION_ID') }}"
-        github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+
+        github_token: "{{ lookup('env', 'WORKFLOW_GITHUB_ACTIONS_TOKEN') }}"
 
     - name: Validate Context
       assert:
@@ -21,6 +22,7 @@
           - context.github_context.target_repository.repo is defined
 
           - github_token is defined
+
           - azure_subscription_id is defined
           - (azure_subscription_id | length) > 0
 
