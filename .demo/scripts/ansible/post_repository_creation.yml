@@ -23,9 +23,16 @@
           - context.github_context.target_repository.repo is defined
 
           - github_template_token is defined
+          - (github_template_token | length) > 0
+
           - github_demo_token is defined
+          - (github_demo_token | length) > 0
+
           - template_auth_header is defined
+          - (template_auth_header | length) > 0
+
           - demo_auth_header is defined
+          - (demo_auth_header | length) > 0
 
     - name: Set Repository URLs
       set_fact:
