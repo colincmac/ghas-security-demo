@@ -1,0 +1,44 @@
+---
+
+- hosts: localhost
+  tasks:
+    - name: Parse environment vars
+      set_fact:
+        context: "{{ lookup('env', 'TERRAFORM_PARAMETERS_B64') | b64decode | from_json }}"
+        github_demo_token: "{{ lookup('env', 'WORKFLOW_GITHUB_DEMO_ORGANIZATION_TOKEN') }}"
+
+
+    - name: Validate Context
+      assert:
+        that:
+          - context is defined
+          - context.github_context is defined
+
+          - context.github_context.target_repository is defined
+          - context.github_context.target_repository.owner is defined
+          - context.github_context.target_repository.repo is defined
+
+          - github_demo_token is defined
+          - (github_demo_token | length) > 0
+
+
+    #
+    # We have to run this under finalize as we need the secrets on the repository to be properly populated
+    #
+    # Using retry logic here as end to end execution may still be processing the workflow files on the repository - PM
+    #
+    - name: Invoke Issue creation workflow
+      uri:
+        url: https://api.github.com/repos/{{ context.github_context.target_repository.owner }}/{{ context.github_context.target_repository.repo }}/actions/workflows/initialize.yml/dispatches
+        method: POST
+        headers:
+          Accept: application/vnd.github.v3+json
+          Authorization: bearer {{ github_demo_token }}
+        body_format: json
+        body:
+          ref: "main"
+        status_code: 204
+      register: invocation
+      until: invocation is not failed
+      retries: 5
+      delay: 2

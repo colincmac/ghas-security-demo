@@ -84,22 +84,3 @@
             users: []
             teams: []
         status_code: 200
-
-    # Need to retry here for a while to wait for GitHub to pick up the workflow files that we are pushing above...
-    # Ideally this would not be required, and it is not error free either, but until we can get back to being able
-    # to use templates, this is what we are stuck with for now - PM
-    - name: Invoke Issue creation workflow
-      uri:
-        url: https://api.github.com/repos/{{ context.github_context.target_repository.owner }}/{{ context.github_context.target_repository.repo }}/actions/workflows/initialize.yml/dispatches
-        method: POST
-        headers:
-          Accept: application/vnd.github.v3+json
-          Authorization: bearer {{ github_demo_token }}
-        body_format: json
-        body:
-          ref: "main"
-        status_code: 204
-      register: invocation
-      until: invocation is not failed
-      retries: 5
-      delay: 2
