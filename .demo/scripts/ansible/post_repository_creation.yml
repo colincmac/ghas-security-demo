@@ -33,7 +33,6 @@
 
     - name: Clone template repository
       command:
-        # cmd: 'git -c "http.extraHeader={{ template_auth_header }}" clone {{ template_repository_url }} {{ working_directory }}'
         cmd: 'git clone {{ template_repository_url_with_token }} {{ working_directory }}'
 
     - name: Set target repo url
@@ -43,12 +42,12 @@
 
     - name: Fetch the origin repo
       command:
-        cmd: git -c "http.extraHeader={{ template_auth_header }}" fetch -p origin
+        cmd: git fetch -p origin
         chdir: '{{ working_directory }}'
 
     - name: Push repository files
       command:
-        cmd: git -c "http.extraHeader={{ demo_auth_header }}" push origin main --force
+        cmd: git push origin main --force
         chdir: '{{ working_directory }}'
 
     - name: Enable Push protection rules
