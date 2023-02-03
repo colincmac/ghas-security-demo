@@ -105,7 +105,7 @@ jobs:
 
           echo "Captured Outputs from deployment"
           cat $outputsFile
-          echo "::set-output name=deployment_outputs::$outputsFile"
+          echo "deployment_outputs=$outputsFile" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: Extract environment URL
