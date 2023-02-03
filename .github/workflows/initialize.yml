@@ -80,3 +80,12 @@ jobs:
                 }
               }
             });
+
+            // Trigger a build now that all secrets and items are in place
+            await github.rest.actions.createWorkflowDispatch({
+              ...context.repo,
+              workflow_id: 'build_test_publish.yml',
+              ref: 'main'
+            })
+
+
