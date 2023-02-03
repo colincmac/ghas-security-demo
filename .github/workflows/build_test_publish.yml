@@ -104,7 +104,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.artifact_parameters.outputs.artifact_name }}
-          path: ${{ steps.artifact_parameters.outputs.artifact_path }}/bookstore-security-${{ steps.maven_build.outputs.version }}.jar
+          path: ${{ steps.artifact_parameters.outputs.artifact_path }}/bookstore-security-${{ steps.maven_version.outputs.version }}.jar
           if-no-files-found: error
 
   build_application_container:

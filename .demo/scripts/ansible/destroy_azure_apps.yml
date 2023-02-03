@@ -80,13 +80,16 @@
 
       when: existing_resource_group.resourcegroups | length > 0
 
+    #
+    # Under EMUs without PATs this call will always fail so we need an alternative credential or approach to this - PM
+    #
     # Remove any containers that might have been published from the repository to GHCR
-    - name: Delete repository containers
-      uri:
-        url: https://api.github.com/orgs/{{ context.github_context.target_repository.owner }}/packages/container/{{ context.github_context.target_repository.repo }}-app
-        method: DELETE
-        headers:
-          Accept: application/vnd.github.v3+json
-          Authorization: bearer {{ github_token }}
-        # Adding 502 here for now as the API is broken https://github.com/github/c2c-package-registry/issues/5065
-        status_code: 204, 404, 502
+    # - name: Delete repository containers
+    #   uri:
+    #     url: https://api.github.com/orgs/{{ context.github_context.target_repository.owner }}/packages/container/{{ context.github_context.target_repository.repo }}-app
+    #     method: DELETE
+    #     headers:
+    #       Accept: application/vnd.github.v3+json
+    #       Authorization: bearer {{ github_token }}
+    #     # Adding 502 here for now as the API is broken https://github.com/github/c2c-package-registry/issues/5065
+    #     status_code: 204, 404, 502
