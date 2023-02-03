@@ -59,7 +59,7 @@ jobs:
 
     # We need to share details across job boundaries, expose the step outs at the job level
     outputs:
-      jar_version: ${{ steps.maven_build.outputs.version }}
+      jar_version: ${{ steps.maven_version.outputs.version }}
       artifact_name: ${{ steps.artifact_parameters.outputs.artifact_name }}
       artifact_path: ${{ steps.artifact_parameters.outputs.artifact_path }}
 
@@ -84,6 +84,11 @@ jobs:
             -Dchangelist="${{ needs.build_parameters.outputs.maven_changelist }}" \
             -Dgithub.repository="${GITHUB_REPOSITORY}"
         shell: bash
+
+      - name: Output Version
+        id: maven_version
+        run: |
+          cat target/classes/version.properties >> $GITHUB_OUTPUT
 
       - name: Set artifact parameters
         if: matrix.os == 'ubuntu-22.04'
