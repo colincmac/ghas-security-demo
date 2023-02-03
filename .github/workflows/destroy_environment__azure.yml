@@ -62,7 +62,7 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.DEMO_AZURE_SERVICE_PROVIDER_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_PLATFORM_CREDENTIALS }}
 
       - name: Delete Web Apps attached to PR
         env:
@@ -74,7 +74,7 @@ jobs:
             -e SERVICE_PLAN="${{ secrets.AZURE_APP_PLAN_NAME }}" \
             -e RESOURCE_GROUP="${{ secrets.AZURE_RESOURCE_GROUP_NAME }}" \
             -e DEPLOYMENT_REF="${{ needs.deploy_details.outputs.deployment_github_ref }}" \
-            -e AZURE_JSON_CREDENTIALS='${{ toJSON(secrets.DEMO_AZURE_SERVICE_PROVIDER_CREDENTIALS) }}' \
+            -e AZURE_JSON_CREDENTIALS='${{ toJSON(secrets.AZURE_PLATFORM_CREDENTIALS) }}' \
             -e GITHUB_REPOSITORY="${{ github.repository }}" \
             ghcr.io/octodemo/container-ansible-development:base-20210217 ./destroy_azure_webapps.yml $ANSIBLE_VERBOSITY
         shell: bash
