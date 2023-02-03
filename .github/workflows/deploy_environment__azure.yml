@@ -57,7 +57,7 @@ jobs:
         with:
           registry: ${{ steps.validate.outputs.container_registry_url }}
           username: "<token>"
-          password: ${{ secrets.OCTODEMOBOT_GHPR_TOKEN }}
+          password: ${{ secrets.PACKAGES_READ_TOKEN }}
 
       # Ensure that we can reference the container and the URL is valid before we deploy to Azure
       - name: Pull Container
