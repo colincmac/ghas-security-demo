@@ -4,6 +4,11 @@ on:
   push:
   workflow_dispatch:
 
+# If we queue another workflow run on the same git ref, cancel it and pick up the latest one...
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 # The name of the `Build java 11 on ubuntu-22.04` build is used as a required context inside the repository on protected
 #  branches configuration. Any changes to the OS or Java version will need to be reflected in repository settings.
 
