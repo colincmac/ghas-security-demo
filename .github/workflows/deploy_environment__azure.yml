@@ -97,7 +97,7 @@ jobs:
               containerImage="${{ needs.validate_parameters.outputs.validated_container_full_url }}" \
               containerRegistry="${{ needs.validate_parameters.outputs.validated_container_registry_url }}" \
               containerRegistryUsername=token \
-              containerRegistryPassword="${{ secrets.OCTODEMOBOT_GHPR_TOKEN }}" \
+              containerRegistryPassword="${{ secrets.PACKAGES_READ_TOKEN }}" \
               githubRef="${{ github.event.inputs.deployment_github_ref }}" \
               githubRepository="${{ github.repository }}" \
             --query properties.outputs \
