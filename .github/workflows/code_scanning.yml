@@ -27,7 +27,7 @@ jobs:
           cache: maven
 
       - name: Initialize CodeQL Scanning
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           #config-file: ./.github/codeql/codeql-config.yml
           queries: security-extended
@@ -40,4 +40,4 @@ jobs:
         shell: bash
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
