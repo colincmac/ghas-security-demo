@@ -76,6 +76,11 @@ public class BookDatabaseImpl implements BookDatabase {
         return connection != null;
     }
 
+    /**
+     * Retrieves all books from the database.
+     * @return A list of all books in the database.
+     * @throws BookServiceException if there is an error retrieving the books.
+     */
     @Override
     public List<Book> getAll() throws BookServiceException {
         List<Book> books = new ArrayList<Book>();
@@ -103,6 +108,12 @@ public class BookDatabaseImpl implements BookDatabase {
         return books;
     }
 
+    /**
+     * Retrieves books from the database by title.
+     * @param name The title of the book to search for.
+     * @return A list of books that match the given title.
+     * @throws BookServiceException if there is an error retrieving the books.
+     */
     @Override
     public List<Book> getBooksByTitle(String name) throws BookServiceException {
         List<Book> books = new ArrayList<Book>();
@@ -111,13 +122,14 @@ public class BookDatabaseImpl implements BookDatabase {
             throw new BookServiceException("Database connection is not valid, check logs for failure details.");
         }
 
-        Statement stmt = null;
+        PreparedStatement stmt = null;
 
         try {
-            stmt = connection.createStatement();
-            String query = "SELECT * FROM books WHERE title LIKE '%" + name + "%'";
+            String query = "SELECT * FROM books WHERE title LIKE ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setString(1, "%" + name + "%");
 
-            ResultSet results = stmt.executeQuery(query);
+            ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
                 Book book = new Book(
