@@ -111,13 +111,14 @@ public class BookDatabaseImpl implements BookDatabase {
             throw new BookServiceException("Database connection is not valid, check logs for failure details.");
         }
 
-        Statement stmt = null;
+        PreparedStatement stmt = null;
 
         try {
-            stmt = connection.createStatement();
-            String query = "SELECT * FROM books WHERE title LIKE '%" + name + "%'";
+            String query = "SELECT * FROM books WHERE title LIKE ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setString(1, "%" + name + "%");
 
-            ResultSet results = stmt.executeQuery(query);
+            ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
                 Book book = new Book(
